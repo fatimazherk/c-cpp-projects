@@ -1,7 +1,6 @@
 #include <iostream>
-#include <cstdlib>
+#include<cstdlib>
 #include <ctime>
-//cstdlib and ctime header files used to generate computers turns
 
 using namespace std;
 
@@ -10,32 +9,25 @@ void playerMove(char *spaces, char player);
 void computerMove(char *spaces, char computer);
 bool checkWinner(char *spaces, char player, char computer);
 bool checkTie(char *spaces);
+bool checkLine(char a, char b, char c, char player);
 
 int main() {
     char spaces[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
     char player = 'X';
     char computer = 'O';
-    bool running = true;
 
     drawBoard(spaces);
 
-    while (running) {
-         drawBoard(spaces);
-        if (checkWinner(spaces, player, computer)) {
-            running = false;
-            break;
-        } else if (checkTie(spaces)) {
-            running = false;
+    while (true) {
+        playerMove(spaces, player);
+        drawBoard(spaces);
+        if (checkWinner(spaces, player, computer) || checkTie(spaces)) {
             break;
         }
 
         computerMove(spaces, computer);
         drawBoard(spaces);
-        if (checkWinner(spaces, player, computer)) {
-            running = false;
-            break;
-        } else if (checkTie(spaces)) {
-            running = false;
+        if (checkWinner(spaces, player, computer) || checkTie(spaces)) {
             break;
         }
     }
@@ -60,7 +52,7 @@ void drawBoard(char *spaces) {
 void playerMove(char *spaces, char player) {
     int number;
     do {
-        cout << "Enter a spot to place a mark (1 to 9)" << endl;
+        cout << "Enter a spot to place a mark (1 to 9): ";
         cin >> number;
         number--;
         if (spaces[number] == ' ') {
@@ -83,35 +75,33 @@ void computerMove(char *spaces, char computer) {
 }
 
 bool checkWinner(char *spaces, char player, char computer) {
-    // Checking for all possible winning combinations
-    //horizontally vertically and diagonally 
-    if ((spaces[0] != ' ') && (spaces[0] == spaces[1]) && (spaces[1] == spaces[2])) {
-        spaces[0] == player ? cout << "You win!\n" : cout << "You lose!\n";
+    if (checkLine(spaces[0], spaces[1], spaces[2], player) || 
+        checkLine(spaces[3], spaces[4], spaces[5], player) || 
+        checkLine(spaces[6], spaces[7], spaces[8], player) || 
+        checkLine(spaces[0], spaces[3], spaces[6], player) || 
+        checkLine(spaces[1], spaces[4], spaces[7], player) || 
+        checkLine(spaces[2], spaces[5], spaces[8], player) || 
+        checkLine(spaces[0], spaces[4], spaces[8], player) || 
+        checkLine(spaces[2], spaces[4], spaces[6], player)) {
+        cout << "You win!\n";
         return true;
-    } else if ((spaces[3] != ' ') && (spaces[3] == spaces[4]) && (spaces[4] == spaces[5])) {
-        spaces[3] == player ? cout << "You win!\n" : cout << "You lose!\n";
-        return true;
-    } else if ((spaces[6] != ' ') && (spaces[6] == spaces[7]) && (spaces[7] == spaces[8])) {
-        spaces[6] == player ? cout << "You win!\n" : cout << "You lose!\n";
-        return true;
-    } else if ((spaces[0] != ' ') && (spaces[0] == spaces[6]) && (spaces[6] == spaces[3])) {
-        spaces[0] == player ? cout << "You win!\n" : cout << "You lose!\n";
-        return true;
-    } else if ((spaces[1] != ' ') && (spaces[1] == spaces[4]) && (spaces[4] == spaces[7])) {
-        spaces[1] == player ? cout << "You win!\n" : cout << "You lose!\n";
-        return true;
-    } else if ((spaces[2] != ' ') && (spaces[2] == spaces[5]) && (spaces[5] == spaces[8])) {
-        spaces[2] == player ? cout << "You win!\n" : cout << "You lose!\n";
-        return true;
-    } else if ((spaces[0] != ' ') && (spaces[0] == spaces[4]) && (spaces[4] == spaces[8])) {
-        spaces[0] == player ? cout << "You win!\n" : cout << "You lose!\n";
-        return true;
-    } else if ((spaces[2] != ' ') && (spaces[2] == spaces[4]) && (spaces[4] == spaces[6])) {
-        spaces[2] == player ? cout << "You win!\n" : cout << "You lose!\n";
+    } else if (checkLine(spaces[0], spaces[1], spaces[2], computer) || 
+               checkLine(spaces[3], spaces[4], spaces[5], computer) || 
+               checkLine(spaces[6], spaces[7], spaces[8], computer) || 
+               checkLine(spaces[0], spaces[3], spaces[6], computer) || 
+               checkLine(spaces[1], spaces[4], spaces[7], computer) || 
+               checkLine(spaces[2], spaces[5], spaces[8], computer) || 
+               checkLine(spaces[0], spaces[4], spaces[8], computer) || 
+               checkLine(spaces[2], spaces[4], spaces[6], computer)) {
+        cout << "You lose!\n";
         return true;
     } else {
         return false;
     }
+}
+
+bool checkLine(char a, char b, char c, char player) {
+    return (a == player && b == player && c == player);
 }
 
 bool checkTie(char *spaces) {
