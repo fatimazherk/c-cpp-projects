@@ -1,0 +1,210 @@
+#include <stdio.h>
+#include<string.h>
+#include<stdlib.h>
+
+// Function declarations
+void reportVandalism(FILE *file);
+void reportSexualAssault(FILE *file);
+void reportHarassment(FILE *file);
+void reportMurder(FILE *file);
+void reportExtortion(FILE *file);
+void reportSmuggling(FILE *file);
+void reportDomesticViolence(FILE *file);
+void reportFraud(FILE *file);
+void reportBurglary(FILE *file);
+void reportKidnapping(FILE *file);
+void reportOther(FILE *file);
+
+// Function to get user details
+void getUserDetails(FILE *file);
+
+struct details{
+    char name[30];
+    char location[60];
+    char details[500];
+    char adress[60];
+    int numWitness;
+    char witness[30];
+    int contactNo;
+    int day;
+    int month;
+    int year;
+};
+
+int main() {
+    FILE *crimeFile;
+    // Open the file in append mode
+    crimeFile = fopen("crime_reports.txt", "a");
+
+    if (crimeFile == NULL) {
+        printf("Error opening file.\n");
+        return 1;
+    }
+
+    int choice;
+
+    printf("Pakistan Crime Alert Portal \n\n");
+    printf("1. Vandalism\n");
+    printf("2. Sexual Assault\n");
+    printf("3. Harassment\n");
+    printf("4. Murder\n");
+    printf("5. Extortion\n");
+    printf("6. Smuggling\n");
+    printf("7. Domestic Violence\n");
+    printf("8. Fraud\n");
+    printf("9. Burglary\n");
+    printf("10. Kidnapping\n");
+    printf("0. Other\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+
+             
+
+             
+    
+    switch (choice) {
+        case 1:
+            reportVandalism(crimeFile);
+            break;
+        case 2:
+            reportSexualAssault(crimeFile);
+            break;
+        case 3:
+            reportHarassment(crimeFile);
+            break;
+        case 4:
+            reportMurder(crimeFile);
+            break;
+        case 5:
+            reportExtortion(crimeFile);
+            break;
+        case 6:
+            reportSmuggling(crimeFile);
+            break;
+        case 7:
+            reportDomesticViolence(crimeFile);
+            break;
+        case 8:
+            reportFraud(crimeFile);
+            break;
+        case 9:
+            reportBurglary(crimeFile);
+            break;
+        case 10:
+            reportKidnapping(crimeFile);
+            break;
+        case 0:
+            reportOther(crimeFile);
+            break;
+        default:
+            printf("Invalid choice. Please enter a valid option.\n");
+            break;
+    
+    }
+    
+    // Close the file
+    fclose(crimeFile);
+    return 0;
+}
+
+// Function definitions with file handling
+void reportVandalism(FILE *file) {
+    fprintf(file, "Crime Type: Vandalism\n");
+    getUserDetails(file);
+}
+
+void reportSexualAssault(FILE *file) {
+    fprintf(file, "Crime Type: Sexual Assault\n");
+    getUserDetails(file);
+}
+
+void reportHarassment(FILE *file) {
+    fprintf(file, "Crime Type: Harassment\n");
+    getUserDetails(file);
+}
+
+void reportMurder(FILE *file) {
+    fprintf(file, "Crime Type: Murder\n");
+    getUserDetails(file);
+}
+
+void reportExtortion(FILE *file) {
+    fprintf(file, "Crime Type: Extortion\n");
+    getUserDetails(file);
+}
+
+void reportSmuggling(FILE *file) {
+    fprintf(file, "Crime Type: Smuggling\n");
+    getUserDetails(file);
+}
+
+void reportDomesticViolence(FILE *file) {
+    fprintf(file, "Crime Type: Domestic Violence\n");
+    getUserDetails(file);
+}
+
+void reportFraud(FILE *file) {
+    fprintf(file, "Crime Type: Fraud\n");
+    getUserDetails(file);
+}
+
+void reportBurglary(FILE *file) {
+    fprintf(file, "Crime Type: Burglary\n");
+    getUserDetails(file);
+}
+
+void reportKidnapping(FILE *file) {
+    fprintf(file, "Crime Type: Kidnapping\n");
+    getUserDetails(file);
+}
+
+void reportOther(FILE *file){
+    fprintf(file, "Crime Type: Other");
+    getUserDetails(file);
+}
+
+// Function to get user details
+void getUserDetails(FILE *file) {
+    struct details s1;
+    
+
+    // Prompt user for details
+    printf("Enter your name:");
+     scanf(" %[^\n]",s1.name);
+    while(getchar() != '\n');
+
+    printf("\nEnter the location of the crime:");
+    scanf(" %[^\n]",s1.location);
+    while(getchar() != '\n');
+
+    printf("\nEnter the date of crime (DD MM YY):");
+    scanf(" %d %d %d",&s1.day, &s1.month, &s1.year);
+
+    printf("Enter the number of witnesses:");
+    scanf("%d",&s1.numWitness);
+
+    printf("Enter the name/s of witness/es:");
+    scanf(" %[^\n]",s1.witness);
+
+    printf("Enter your contact number:");
+    scanf("%d",&s1.contactNo);
+
+    printf("Enter your adress:");
+    scanf(" %[^\n]",s1.adress);
+
+    printf("\nEnter details of the incident:\n");
+    scanf(" %[^\n]", s1.details);
+    while(getchar() != '\n');
+
+    // Write details to the file
+    fprintf( file, "Name: %s\n", s1.name);
+    fprintf( file, "Date: %d %d %d\n", s1.day, s1.month, s1.year);
+    fprintf( file, "Location: %s\n", s1.location);
+    fprintf( file, "Contact Number: %d\n", s1.contactNo);
+    fprintf( file, "Adress: %s\n", s1.adress);
+    fprintf( file, "Number of witness/es: %d\n", s1.numWitness);
+    fprintf( file, "Name/s of witness/es: %s\n", s1.witness);
+    fprintf(file, "Incident Details: %s\n", s1.details);
+    fprintf(file, "------------------------\n");
+    printf("Details submitted successfully.\n");
+}
