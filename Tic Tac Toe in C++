@@ -1,9 +1,13 @@
+//TIC TAC TOE GAME
+//BY FATIMAA KHAN
+
 #include <iostream>
 #include<cstdlib>
 #include <ctime>
 
 using namespace std;
 
+//All of the functions that will be used
 void drawBoard(char *spaces);
 void playerMove(char *spaces, char player);
 void computerMove(char *spaces, char computer);
@@ -12,6 +16,7 @@ bool checkTie(char *spaces);
 bool checkLine(char a, char b, char c, char player);
 
 int main() {
+//initiallizing players moves to x, computers moves to o and spaces to be 9 to represent each box in the game
     char spaces[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
     char player = 'X';
     char computer = 'O';
@@ -35,6 +40,7 @@ int main() {
     return 0;
 }
 
+//function to draw the main board of the game
 void drawBoard(char *spaces) {
     cout << endl;
     cout << "     |     |     " << endl;
@@ -49,6 +55,7 @@ void drawBoard(char *spaces) {
     cout << endl;
 }
 
+//function to allow user input
 void playerMove(char *spaces, char player) {
     int number;
     do {
@@ -62,6 +69,8 @@ void playerMove(char *spaces, char player) {
     } while (!(number >= 0 && number < 9));
 }
 
+//function for random generation (computers input), here i have used rand to generate a random number so that 
+//all computer tries remain unique and unbiased
 void computerMove(char *spaces, char computer) {
     int number;
     srand(time(0));
@@ -73,6 +82,8 @@ void computerMove(char *spaces, char computer) {
         }
     }
 }
+
+//checking if the x's or o's match horizontally vertically or diagonally to determine a winner
 
 bool checkWinner(char *spaces, char player, char computer) {
     if (checkLine(spaces[0], spaces[1], spaces[2], player) || 
