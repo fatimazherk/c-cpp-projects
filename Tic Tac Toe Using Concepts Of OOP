@@ -1,0 +1,112 @@
+//TIC TAC TOE GAME 
+//USING CONCEPTS OF OOP
+//BY FATIMAA KHAN
+
+#include <iostream>
+#include<cstdlib>
+#include <ctime>
+
+using namespace std;
+
+
+class TicTacToe{
+public:
+  char spaces[9] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '};
+    char player = 'X';
+    char computer = 'O';
+void drawBoard(char *spaces) {
+    cout << endl;
+    cout << "     |     |     " << endl;
+    cout << "  " << spaces[0] << "  |  " << spaces[1] << "  |  " << spaces[2] << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << "  " << spaces[3] << "  |  " << spaces[4] << "  |  " << spaces[5] << endl;
+    cout << "_____|_____|_____" << endl;
+    cout << "     |     |     " << endl;
+    cout << "  " << spaces[6] << "  |  " << spaces[7] << "  |  " << spaces[8] << endl;
+    cout << "     |     |     " << endl;
+    cout << endl;
+}
+void playerMove(char *spaces, char player) {
+    int number;
+    do {
+        cout << "Enter a spot to place a mark (1 to 9): ";
+        cin >> number;
+        number--;
+        if (spaces[number] == ' ') {
+            spaces[number] = player;
+            break;
+        }
+    } while (!(number >= 0 && number < 9));
+}
+void computerMove(char *spaces, char computer) {
+    int number;
+    srand(time(0));
+    while (true) {
+        number = rand() % 9;
+        if (spaces[number] == ' ') {
+            spaces[number] = computer;
+            break;
+        }
+    }
+}
+bool checkWinner(char *spaces, char player, char computer) {
+    if (checkLine(spaces[0], spaces[1], spaces[2], player) || 
+        checkLine(spaces[3], spaces[4], spaces[5], player) || 
+        checkLine(spaces[6], spaces[7], spaces[8], player) || 
+        checkLine(spaces[0], spaces[3], spaces[6], player) || 
+        checkLine(spaces[1], spaces[4], spaces[7], player) || 
+        checkLine(spaces[2], spaces[5], spaces[8], player) || 
+        checkLine(spaces[0], spaces[4], spaces[8], player) || 
+        checkLine(spaces[2], spaces[4], spaces[6], player)) {
+        cout << "You win!\n";
+        return true;
+    } else if (checkLine(spaces[0], spaces[1], spaces[2], computer) || 
+               checkLine(spaces[3], spaces[4], spaces[5], computer) || 
+               checkLine(spaces[6], spaces[7], spaces[8], computer) || 
+               checkLine(spaces[0], spaces[3], spaces[6], computer) || 
+               checkLine(spaces[1], spaces[4], spaces[7], computer) || 
+               checkLine(spaces[2], spaces[5], spaces[8], computer) || 
+               checkLine(spaces[0], spaces[4], spaces[8], computer) || 
+               checkLine(spaces[2], spaces[4], spaces[6], computer)) {
+        cout << "You lose!\n";
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool checkLine(char a, char b, char c, char player) {
+    return (a == player && b == player && c == player);
+}
+
+bool checkTie(char *spaces) {
+    for (int i = 0; i < 9; i++) {
+        if (spaces[i] == ' ') {
+            return false;
+        }
+    }
+    cout << "It's a tie!\n";
+    return true;
+}
+
+};
+
+
+int main() {
+    TicTacToe game;
+    game.drawBoard(game.spaces);
+    while (true) {
+        game.playerMove(game.spaces, game.player);
+        game.drawBoard(game.spaces);
+        if (game.checkWinner(game.spaces, game.player, game.computer) || game.checkTie(game.spaces)) {
+            break;
+        }
+        game.computerMove(game.spaces, game.computer);
+        game.drawBoard(game.spaces);
+        if (game.checkWinner(game.spaces, game.player, game.computer) || game.checkTie(game.spaces)) {
+            break;
+        }
+    }
+    return 0;
+}
