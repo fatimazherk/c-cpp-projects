@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+double calculateBMI(double weight, double height) {
+    return weight / (height * height);
+}
+
+int main() {
+    double weight, height;
+
+    // Input weight in kilograms
+    cout << "Enter your weight in kilograms: ";
+    cin >> weight;
+
+    // Input height in meters
+    cout << "Enter your height in meters: ";
+    cin >> height;
+
+    // Calculate BMI
+    double bmi = calculateBMI(weight, height);
+
+    // Display the BMI
+    cout << "Your BMI is: " << bmi << endl;
+
+    // Interpretation of BMI
+    if (bmi < 18.5) {
+        cout << "Your BMI suggests that you are underweight." << endl;
+    } else if (bmi >= 18.5 && bmi < 25) {
+        cout << "Your BMI suggests that you are of a normal weight." << endl;
+    } else if (bmi >= 25 && bmi < 30) {
+        cout << "Your BMI suggests that you are overweight." << endl;
+    } else {
+        cout << "Your BMI suggests that you are obese." << endl;
+    }
+
+    return 0;
+}
